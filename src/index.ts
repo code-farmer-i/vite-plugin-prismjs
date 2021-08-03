@@ -1,4 +1,4 @@
-import babel from '@babel/core';
+import { transformSync } from '@babel/core';
 import { createFilter } from '@rollup/pluginutils';
 import babelPluginPrismjs from 'babel-plugin-prismjs';
 import { Plugin } from 'vite'
@@ -18,7 +18,7 @@ function prismjsPlugin(options: BabelPluginPrismjsOptions = {}): Plugin {
   let needSourceMap = true;
 
   function transform(id: string, code: string) {
-    return babel.transformSync(code, {
+    return transformSync(code, {
       babelrc: false,
       ast: true,
       plugins: [[babelPluginPrismjs, options]],
