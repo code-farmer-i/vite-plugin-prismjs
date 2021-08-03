@@ -3,10 +3,10 @@ import { createFilter } from '@rollup/pluginutils';
 import babelPluginPrismjs from 'babel-plugin-prismjs';
 import { Plugin } from 'vite'
 interface BabelPluginPrismjsOptions {
-  languages: string[] | 'all';
-  plugins: string[];
-  theme: string;
-  css: boolean;
+  languages?: string[] | 'all';
+  plugins?: string[];
+  theme?: string;
+  css?: boolean;
 }
 
 function stripScript(content: string) {
@@ -14,7 +14,7 @@ function stripScript(content: string) {
   return result && result[2] ? result[2].trim() : '';
 }
 
-function prismjsPlugin(options: BabelPluginPrismjsOptions): Plugin {
+function prismjsPlugin(options: BabelPluginPrismjsOptions = {}): Plugin {
   let needSourceMap = true;
 
   function transform(id: string, code: string) {
