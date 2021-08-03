@@ -2,9 +2,8 @@ import babel from '@babel/core';
 import { createFilter } from '@rollup/pluginutils';
 import babelPluginPrismjs from 'babel-plugin-prismjs';
 import { Plugin } from 'vite'
-
 interface BabelPluginPrismjsOptions {
-  language: string[] | 'all';
+  languages: string[] | 'all';
   plugins: string[];
   theme: string;
   css: boolean;
