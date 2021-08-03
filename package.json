@@ -4,9 +4,10 @@
   "license": "MIT",
   "author": "Kang Chen",
   "files": [
-    "index.js"
+    "dist"
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -23,7 +24,13 @@
   "homepage": "https://github.com/code-farmer-i/vite-plugin-prismjs#readme",
   "dependencies": {
     "@babel/core": "^7.14.6",
-    "@rollup/pluginutils": "^4.1.0",
     "babel-plugin-prismjs": "^2.0.1"
+  },
+  "devDependencies": {
+    "@rollup/pluginutils": "^4.1.1",
+    "@types/babel__core": "^7.1.15",
+    "@types/estree": "^0.0.50",
+    "@types/node": "^16.4.10",
+    "vite": "^2.4.4"
   }
 }

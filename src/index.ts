@@ -1,16 +1,24 @@
-const babel = require('@babel/core');
-const { createFilter } = require('@rollup/pluginutils');
-const babelPluginPrismjs = require('babel-plugin-prismjs');
+import babel from '@babel/core';
+import { createFilter } from '@rollup/pluginutils';
+import babelPluginPrismjs from 'babel-plugin-prismjs';
+import { Plugin } from 'vite'
 
-function stripScript(content) {
+interface BabelPluginPrismjsOptions {
+  language: string[] | 'all';
+  plugins: string[];
+  theme: string;
+  css: boolean;
+}
+
+function stripScript(content: string) {
   const result = content.match(/<(script)>([\s\S]+)<\/\1>/);
   return result && result[2] ? result[2].trim() : '';
 }
 
-function prismjsPlugin(options) {
+function prismjsPlugin(options: BabelPluginPrismjsOptions): Plugin {
   let needSourceMap = true;
 
-  function transform(id, code) {
+  function transform(id: string, code: string) {
     return babel.transformSync(code, {
       babelrc: false,
       ast: true,
@@ -24,7 +32,7 @@ function prismjsPlugin(options) {
   return {
     name: 'prismjs',
 
-    enforce: 'post',
+    enforce: 'pre',
 
     configResolved(config) {
       needSourceMap = config.command === 'serve' || !!config.build.sourcemap;
@@ -40,22 +48,29 @@ function prismjsPlugin(options) {
         if (script) {
           const result = transform(id, script);
 
-          return {
-            code: code.replace(script, result.code),
-            map: result.map,
-          };
+          if (result) {
+            return {
+              code: code.replace(script, result.code as string),
+              map: result.map,
+            };
+          }
         }
       } else if (filter(id)) {
         const result = transform(id, code);
 
-        return {
-          code: result.code,
-          map: result.map,
-        };
+        if (result) {
+          return {
+            code: result.code as string,
+            map: result.map,
+          };
+        }
       }
     },
   };
 }
 
-module.exports = prismjsPlugin;
-prismjsPlugin.default = prismjsPlugin;
+export {
+  prismjsPlugin
+}
+
+export default prismjsPlugin
