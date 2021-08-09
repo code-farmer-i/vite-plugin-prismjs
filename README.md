@@ -1,4 +1,4 @@
-# vite-plugun-prismjs [![npm](https://img.shields.io/npm/v/vite-plugun-prismjs.svg)](https://npmjs.com/package/vite-plugun-prismjs)
+# vite-plugin-prismjs [![npm](https://img.shields.io/npm/v/vite-plugun-prismjs.svg)](https://npmjs.com/package/vite-plugin-prismjs)
 
 ## Options
 
