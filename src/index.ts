@@ -1,5 +1,4 @@
 import { transformSync } from '@babel/core';
-import { createFilter } from '@rollup/pluginutils';
 import babelPluginPrismjs from 'babel-plugin-prismjs';
 import { Plugin } from 'vite'
 interface BabelPluginPrismjsOptions {
@@ -7,11 +6,6 @@ interface BabelPluginPrismjsOptions {
   plugins?: string[];
   theme?: string;
   css?: boolean;
-}
-
-function stripScript(content: string) {
-  const result = content.match(/<(script)>([\s\S]+)<\/\1>/);
-  return result && result[2] ? result[2].trim() : '';
 }
 
 function prismjsPlugin(options: BabelPluginPrismjsOptions = {}): Plugin {
@@ -31,30 +25,10 @@ function prismjsPlugin(options: BabelPluginPrismjsOptions = {}): Plugin {
   return {
     name: 'prismjs',
 
-    enforce: 'pre',
-
-    configResolved(config) {
-      needSourceMap = config.command === 'serve' || !!config.build.sourcemap;
-    },
+    enforce: 'post',
 
     transform(code, id) {
-      const filter = createFilter(/\.[jt]s$/);
-      const vueFilter = createFilter(/\.vue$/);
-
-      if (vueFilter(id)) {
-        const script = stripScript(code);
-
-        if (script) {
-          const result = transform(id, script);
-
-          if (result) {
-            return {
-              code: code.replace(script, result.code as string),
-              map: result.map,
-            };
-          }
-        }
-      } else if (filter(id)) {
+      if (/\.(?:[jt]sx?|vue)$/.test(id) && !/node_modules/.test(id)) {
         const result = transform(id, code);
 
         if (result) {
