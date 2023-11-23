@@ -39,9 +39,9 @@ function prismjsPlugin(options: BabelPluginPrismjsOptions = {}): Plugin {
 
     transform(code, id) {
       const filter = createFilter(/\.[jt]s$/);
-      const vueFilter = createFilter(/\.vue$/);
+      const scriptFilter = createFilter(/\.vue$|\.svelte$/);
 
-      if (vueFilter(id)) {
+      if (scriptFilter(id)) {
         const script = stripScript(code);
 
         if (script) {
