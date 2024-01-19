@@ -1,6 +1,6 @@
 import { transformSync } from '@babel/core';
 import babelPluginPrismjs from 'babel-plugin-prismjs';
-import { Plugin } from 'vite'
+import { Plugin } from 'vite';
 interface BabelPluginPrismjsOptions {
   languages?: string[] | 'all';
   plugins?: string[];
@@ -42,8 +42,9 @@ function prismjsPlugin(options: BabelPluginPrismjsOptions = {}): Plugin {
   };
 }
 
-export {
-  prismjsPlugin
-}
+module.exports = prismjsPlugin;
+module.exports['prismjsPlugin'] = prismjsPlugin;
+module.exports['default'] = prismjsPlugin;
 
-export default prismjsPlugin
+export { prismjsPlugin };
+export default prismjsPlugin;
